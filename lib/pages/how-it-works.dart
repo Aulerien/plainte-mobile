@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plainte/pages/conditions-utilisation.dart';
+import 'package:plainte/pages/login.dart';
 
 class HowItWorksPage extends StatefulWidget {
   HowItWorksPage({Key key}): super(key: key);
@@ -12,28 +13,9 @@ class HowItWorksPage extends StatefulWidget {
 
 class _HowItWorksPageState extends State<HowItWorksPage> {
 
-  ScrollController scrollController = ScrollController();
-  bool canGoToNext = false;
-
   @override
   void initState() {
-    scrollController.addListener( () {
-      if(scrollController.position.atEdge) {
-        if(scrollController.position.pixels == 0) {
-          // at the top
-          setState( () {
-            canGoToNext = false;
-          });
-          print('at the top');
-        } else {
-          // bottom
-          setState( () {
-            canGoToNext = true;
-          });
-          print('at the bottom');
-        }
-      }
-    });
+
   }
 
   @override
@@ -49,7 +31,6 @@ class _HowItWorksPageState extends State<HowItWorksPage> {
         ),
       ),
       body: SingleChildScrollView(
-        controller: scrollController,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: buildHowItWorksItems(),
@@ -62,12 +43,10 @@ class _HowItWorksPageState extends State<HowItWorksPage> {
           children: [
             TextButton(
               onPressed: () => {
-                if(canGoToNext) {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => ConditionUtilisationPage()
+                      MaterialPageRoute(builder: (context) => LoginPage()
                       )
                   )
-                }
               },
               child: Container(
                 margin: EdgeInsets.only(left: 10, right: 10),
@@ -78,7 +57,7 @@ class _HowItWorksPageState extends State<HowItWorksPage> {
                     )
                 ),
                 child: Padding(
-                  padding: EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 15),
+                  padding: EdgeInsets.only(left: 50, right: 50, top: 15, bottom: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -152,7 +131,7 @@ class _HowItWorksPageState extends State<HowItWorksPage> {
   /// step 1
   Widget buildStep1() {
     Text text = Text(
-      "Etape 2 : Inscrivez vous pour Inscrivez vous pour  Inscrivez vous pour "
+      "Etape 1 : Inscrivez vous pour Inscrivez vous pour  Inscrivez vous pour "
           "Inscrivez vous pour Inscrivez vous pour  Inscrivez vous pour "
           "Inscrivez vous pour Inscrivez vous pour  Inscrivez vous pour "
           "Inscrivez vous pour Inscrivez vous pour  Inscrivez vous pour "
