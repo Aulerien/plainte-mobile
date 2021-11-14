@@ -34,15 +34,18 @@ class _WelcomePageState extends State<WelcomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset('images/adobestock_59647285.jpeg',),
+            Image.asset('assets/images/adobestock_59647285.jpeg',),
             SizedBox(height: 20,),
-            Text(
-              "Bienvenue dans l'application qui va vous permettre de vous exprimer librement",
-              style: TextStyle(
-                fontSize: 15,
-                color: Colors.black,
+            Padding(
+            padding: EdgeInsets.only(left: 20, right: 20),
+              child: Text(
+                "Bienvenue dans l'application qui va vous permettre de vous exprimer librement",
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.black,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
           ],
         ),
