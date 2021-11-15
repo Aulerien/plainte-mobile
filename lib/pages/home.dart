@@ -7,6 +7,7 @@ import 'package:plainte/pages/my-drawer.dart';
 import 'package:plainte/pages/my-plaints.dart';
 import 'package:plainte/pages/news-plaints.dart';
 import 'package:plainte/pages/plaints-closed.dart';
+import 'package:plainte/pages/save-plaint.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 class HomePage extends StatefulWidget {
@@ -62,15 +63,13 @@ class  HomePageState extends State<HomePage> with TickerProviderStateMixin {
         case 3:
           _currentIndex = index;
           break;
+        case 4:
+          _currentIndex = index;
+          break;
 
       }
     });
   }
-  void loadRadio() async {
-
-  }
-
-
 
 
 
@@ -95,6 +94,7 @@ class  HomePageState extends State<HomePage> with TickerProviderStateMixin {
     List<Widget> _children = [
       buildHomeSection(), // statistique
       buildNewsPlaintsSection(), // news-plaint section
+      buildSavePlaintsSection(), // save plaint section
       buildPlaintsClosedSection(), // plaints-closed
       buildMyPlaintsSection(), // my-plainte
     ];
@@ -116,6 +116,16 @@ class  HomePageState extends State<HomePage> with TickerProviderStateMixin {
         onItemSelected: _onItemTapped,
         items: buildBottomNavigation(),
       ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextButton(
+            child: Text('Créer une plainte'),
+            onPressed: () {
+            },
+          )
+        ],
+      ),
     );
   }
 
@@ -129,6 +139,11 @@ class  HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return NewsPlaintsPage();
   }
 
+  /// save plainte section
+  buildSavePlaintsSection() {
+    return SavePlaintPage();
+  }
+
   /// plaints closed
   buildPlaintsClosedSection() {
     return PlaintsClosedPage();
@@ -136,13 +151,16 @@ class  HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   /// home section
   buildHomeSection() {
-    return Text("home home home home home home home home home home home home home home home home home home");
+    return Container(
+      child: Text("home home home home home home home home home home home home home home home home home home")
+    );
   }
 
   List<BottomNavyBarItem> buildBottomNavigation() {
     return [
      buildNagivationItem("Statistiques", Icon(Icons.show_chart)),
      buildNagivationItem("Actualités", Icon(Icons.topic)),
+     buildNagivationItem("Créer", Icon(Icons.add)),
      buildNagivationItem("Traitées", Icon(Icons.done_all)),
      buildNagivationItem("Mes plaintes", Icon(Icons.person)),
     ];
@@ -153,10 +171,10 @@ class  HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return BottomNavyBarItem(
         icon: icon,
         title: Text(title,
-          style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),),
+        style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),),
         activeColor: Colors.purple,
         inactiveColor: Colors.grey,
-        textAlign: TextAlign.center
+        textAlign: TextAlign.start
     );
   }
 

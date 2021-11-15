@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class NewsPlaintsPage extends StatefulWidget {
-  NewsPlaintsPage({Key key}): super(key: key);
+class SavePlaintPage extends StatefulWidget {
+  SavePlaintPage({Key key}): super(key: key);
 
-  final String title = "Actualités";
+  final String title = "Création d'une plainte";
 
   @override
-  _NewsPlaintsPageState createState() => _NewsPlaintsPageState();
+  _SavePlaintPageState createState() => _SavePlaintPageState();
 }
 
-class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
+class _SavePlaintPageState extends State<SavePlaintPage> {
 
   @override
   void initState() {
