@@ -64,6 +64,23 @@ class MyDrawer extends StatelessWidget {
                     color: Colors.purple,
                     borderRadius: BorderRadius.circular(20.0),
                   ),
+                  child: Icon(Icons.add, color: Colors.white,),
+                ),
+
+                title: const Text(
+                  'Créer une plainte', style: TextStyle(color: Colors.white),),
+                onTap: () {
+
+                },
+              ),
+              ListTile(
+                leading: Container(
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    color: Colors.purple,
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
                   child: Icon(Icons.done_all, color: Colors.white,),
                 ),
 
