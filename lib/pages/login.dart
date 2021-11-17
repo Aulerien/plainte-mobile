@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plainte/form-validators/ext-string.dart';
 import 'package:plainte/pages/home.dart';
+import 'package:plainte/pages/register.dart';
 import 'dart:ui';
 
 import 'package:plainte/utils/constantes.dart';
@@ -128,7 +129,7 @@ class  LoginPageState extends State<LoginPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LoginPage()
+                                builder: (context) => RegisterPage()
                             ));
                       },
                       child: Text(
