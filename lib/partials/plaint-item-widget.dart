@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:plainte/models/plaint.dart';
 
-class NewsPlaintsPage extends StatefulWidget {
-  NewsPlaintsPage({Key key, this.items}): super(key: key);
+class PlaintItemWidget extends StatefulWidget {
+  PlaintItemWidget({Key key, this.item, this.index, this.totalItems}): super(key: key);
 
-  final String title = "Actualités";
-  List<Plaint> items = [];
+  Plaint item;
+  int totalItems;
+  int index;
 
   @override
-  _NewsPlaintsPageState createState() => _NewsPlaintsPageState();
+  _PlaintItemWidgetState createState() => _PlaintItemWidgetState();
 }
 
-class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
+class _PlaintItemWidgetState extends State<PlaintItemWidget> {
 
   @override
   void initState() {
@@ -20,24 +21,17 @@ class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return  ListView.builder(
-      scrollDirection: Axis.vertical,
-      itemCount: widget.items.length,
-      itemBuilder: (context, index) {
-        return buildItem(context, index);
-      },
-      shrinkWrap: true,
-    );
+    return  buildItem(widget.item);
   }
 
   /// build item
-  Widget buildItem(BuildContext context, int index ) {
+  Widget buildItem(Plaint plaint ) {
     return Card(
       margin: EdgeInsets.only(
           left: 10,
           right: 10,
-          bottom: (index + 1) != items.length ? 20 : 75,
-          top: index == 0 ? 20: 0
+          bottom: (widget.index + 1) != widget.totalItems ? 20 : 75,
+          top: widget.index == 0 ? 20: 0
       ),
       elevation: 5,
       child: Padding(
@@ -77,6 +71,7 @@ class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
             ),
           ],
         ),
+        SizedBox(height: 10,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -135,7 +130,7 @@ class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
                 size: 25,
               ),
               Text(
-                  "20K",
+                  widget.item.number_like_up?.toString() ?? '',
                   style: TextStyle(
                       fontSize: 15
                   )
@@ -150,7 +145,7 @@ class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
                 size: 25,
               ),
               Text(
-                  "20K",
+                  widget.item.number_views?.toString() ?? '0',
                   style: TextStyle(
                       fontSize: 15
                   )
@@ -165,7 +160,7 @@ class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
                 size: 25,
               ),
               Text(
-                "70",
+                widget.item.number_like_down?.toString() ?? '',
                 style: TextStyle(
                     fontSize: 15
                 ),
@@ -179,15 +174,9 @@ class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
   Widget buildBodyItem() {
     // TODO: type item in [TEXT, IMAGE, VIDEO, AUDIO]
     return Padding(
-      padding: EdgeInsets.only(top: 10, bottom: 3),
+      padding: EdgeInsets.only(top: 30, bottom: 20),
       child: Text(
-          "lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem "
-              "lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem "
-              "lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem "
-              "lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem "
-              "lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem "
-              "lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem "
-              "lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem "
+          widget.item.text
       ),
     );
   }
