@@ -144,6 +144,7 @@ class  RegisterPageState extends State<RegisterPage> {
                         ),
                         margin: EdgeInsets.only(left: 20, right: 20),
                         child: TextFormField(
+                            keyboardType: TextInputType.phone,
                             controller: textEditingControllerTelephone,
                             validator: (value) {
                               return value.isValidPhone ? null : "Veuillez entrer votre numéro de téléphone";

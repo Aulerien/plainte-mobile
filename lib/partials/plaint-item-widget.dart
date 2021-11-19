@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:plainte/models/plaint.dart';
 
 class NewsPlaintsPage extends StatefulWidget {
-  NewsPlaintsPage({Key key}): super(key: key);
+  NewsPlaintsPage({Key key, this.items}): super(key: key);
 
   final String title = "Actualités";
+  List<Plaint> items = [];
 
   @override
   _NewsPlaintsPageState createState() => _NewsPlaintsPageState();
@@ -11,14 +13,6 @@ class NewsPlaintsPage extends StatefulWidget {
 
 class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
 
-  var items = [
-    '', '', '', '', '', '',
-    '', '', '', '', '', '',
-    '', '', '', '', '', '',
-    '', '', '', '', '', '',
-    '', '', '', '', '', '',
-    '', '', '', '', '', '',
-  ];
   @override
   void initState() {
 
@@ -28,7 +22,7 @@ class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
   Widget build(BuildContext context) {
     return  ListView.builder(
       scrollDirection: Axis.vertical,
-      itemCount: items.length,
+      itemCount: widget.items.length,
       itemBuilder: (context, index) {
         return buildItem(context, index);
       },
@@ -45,6 +39,7 @@ class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
           bottom: (index + 1) != items.length ? 20 : 75,
           top: index == 0 ? 20: 0
       ),
+      elevation: 5,
       child: Padding(
         padding: EdgeInsets.only(left: 10, right: 10, top: 7, bottom: 7),
         child: Row(
@@ -89,6 +84,7 @@ class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
               children: [
                 Row(
                   children: [
+                    // seulement quand la plainte est fermée
                     Icon(
                       Icons.check_box,
                       color: Colors.green,
@@ -98,9 +94,9 @@ class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
                     Text(
                         "Nouveau | En cours | Fermée",
                       style: TextStyle(
-                        fontWeight: FontWeight.bold
+                        fontWeight: FontWeight.bold,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],
