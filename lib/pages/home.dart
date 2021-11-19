@@ -116,14 +116,24 @@ class  HomePageState extends State<HomePage> with TickerProviderStateMixin {
         onItemSelected: _onItemTapped,
         items: buildBottomNavigation(),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            color: Colors.purple,
+            decoration: BoxDecoration(
+                color: Colors.purple,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(30),
+                )
+            ),
             child: TextButton(
-              child: Text('Créer une plainte'),
+              child: Text(
+                  'Créer une plainte',
+                style: TextStyle(
+                  color: Colors.white
+                ),
+              ),
               onPressed: () {
               },
             ),

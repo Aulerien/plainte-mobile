@@ -35,7 +35,7 @@ class _WelcomePageState extends State<WelcomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.asset('assets/images/adobestock_59647285.jpeg',),
-            SizedBox(height: 20,),
+            SizedBox(height: 10,),
             Padding(
             padding: EdgeInsets.only(left: 20, right: 20),
               child: Text(

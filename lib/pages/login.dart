@@ -189,7 +189,7 @@ class  LoginPageState extends State<LoginPage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => HomePage(defaultSection: 0,)
+                builder: (context) => HomePage(defaultSection: 1,)
             ));
       } else {
         final snackBar = SnackBar(

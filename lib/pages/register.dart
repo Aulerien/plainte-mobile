@@ -24,6 +24,7 @@ class  RegisterPageState extends State<RegisterPage> {
   TextEditingController textEditingControllerNom = new TextEditingController();
   TextEditingController textEditingControllerPrenom = new TextEditingController();
   TextEditingController textEditingControllerEmail = new TextEditingController();
+  TextEditingController textEditingControllerTelephone = new TextEditingController();
   TextEditingController textEditingControllerPassword = new TextEditingController();
   TextEditingController textEditingControllerConfirmPassword = new TextEditingController();
   int sexValue = 1;
@@ -135,6 +136,21 @@ class  RegisterPageState extends State<RegisterPage> {
                     ),
                     SizedBox(height: 5),
                     buildSexeRadios(),
+                    // telephone
+                    SizedBox(height: 15),
+                    Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                        margin: EdgeInsets.only(left: 20, right: 20),
+                        child: TextFormField(
+                            controller: textEditingControllerTelephone,
+                            validator: (value) {
+                              return value.isValidPhone ? null : "Veuillez entrer votre numéro de téléphone";
+                            },
+                            decoration: Constantes.myInputDecoration("Téléphone")
+                        )
+                    ),
                     // email
                     SizedBox(height: 15),
                     Container(
@@ -150,6 +166,7 @@ class  RegisterPageState extends State<RegisterPage> {
                             decoration: Constantes.myInputDecoration("Adresse email")
                         )
                     ),
+                    // mot de passe
                     SizedBox(height: 15),
                     Container(
                       margin: EdgeInsets.only(left: 20, right: 20),
