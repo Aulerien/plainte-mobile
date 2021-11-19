@@ -116,31 +116,30 @@ class  HomePageState extends State<HomePage> with TickerProviderStateMixin {
         onItemSelected: _onItemTapped,
         items: buildBottomNavigation(),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.purple,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(30),
-                )
-            ),
-            child: TextButton(
-              child: Text(
-                  'Créer une plainte',
-                style: TextStyle(
-                  color: Colors.white
-                ),
-              ),
-              onPressed: () {
-              },
-            ),
-          ),
-        ],
-      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: _currentIndex != 2 ? Container(
+        decoration: BoxDecoration(
+            color: Colors.purple,
+            borderRadius: BorderRadius.all(
+              Radius.circular(30),
+            )
+        ),
+        child: IconButton(
+          icon: Icon(Icons.add, color: Colors.white,),
+          color: Colors.purple,
+          onPressed: () {
+            goToSavePlaintSection();
+          },
+        ),
+      ) :  Container(),
     );
+  }
+
+  /// go to plaint section
+  goToSavePlaintSection() {
+    setState( () {
+      _currentIndex = 2;
+    });
   }
 
   /// my plaints
