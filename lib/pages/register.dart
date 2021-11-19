@@ -334,6 +334,24 @@ class  RegisterPageState extends State<RegisterPage> {
 
   register() {
       if (_formKey.currentState.validate()) {
+        String nom = textEditingControllerNom.text;
+        String prenom = textEditingControllerPrenom.text;
+        String email = textEditingControllerEmail.text;
+        String telephone = textEditingControllerTelephone.text;
+        String password = textEditingControllerPassword.text;
+        String sexe = "";
+        switch(sexValue) {
+          case 1 :
+            sexe = "MASCULIN";
+            break;
+          case 2 :
+            sexe = "FEMININ";
+            break;
+          default :
+            sexe = "AUTRE";
+            break;
+        }
+
         /// send api request to register
         Navigator.push(
             context,
