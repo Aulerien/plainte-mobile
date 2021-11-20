@@ -20,8 +20,8 @@ class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
       new Plaint(
         DateTime.now().millisecond,
         "Abomey Calavi, Gogomey, Echangeur",
-        "Ils ont vol",
-        "", "", 192, 11, 17, "VALIDEE"
+        "Il ya eu du vol sur l'échangeur de Godomey cet après midi.",
+        "", "", 192, 11, 400, "VALIDEE"
       ),
     ];
     widget.items =  List.filled(30, widget.items[0]);

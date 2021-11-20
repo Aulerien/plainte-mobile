@@ -87,7 +87,7 @@ class _PlaintItemWidgetState extends State<PlaintItemWidget> {
                     SizedBox(width: 5,),
                     // date création
                     Text(
-                        "Nouveau | En cours | Fermée",
+                        "Fermée",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
