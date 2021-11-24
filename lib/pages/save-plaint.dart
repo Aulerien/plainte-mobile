@@ -50,11 +50,6 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children:[
-                SizedBox(height: 30),
-                Icon(
-                  Icons.spa,
-                  size: 80,
-                ),
                 SizedBox(height: 15),
                 Container(
                   margin: EdgeInsets.only(left: 20, right: 20),
@@ -117,7 +112,7 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
 
                 TextButton(
                     onPressed: () {
-                      register();
+                      savePlaint();
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: 60, right: 60, bottom: 20),
@@ -155,7 +150,7 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
 
 
 
-  register() {
+  savePlaint() {
     if (_formKey.currentState.validate()) {
       String description = textEditingControllerDescription.text;
 
