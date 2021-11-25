@@ -1,12 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plainte/form-validators/ext-string.dart';
+import 'package:plainte/forms/register-form.dart';
+import 'package:plainte/models/user.dart';
 import 'package:plainte/pages/home.dart';
 import 'package:plainte/pages/login.dart';
+import 'package:plainte/services/user.service.dart';
 import 'dart:ui';
 
 import 'package:plainte/utils/constantes.dart';
+import 'package:plainte/utils/globals.dart';
 
 class RegisterPage extends StatefulWidget {
 
@@ -213,7 +219,7 @@ class  RegisterPageState extends State<RegisterPage> {
                           controller: textEditingControllerConfirmPassword,
                           keyboardType: TextInputType.text,
                           validator: (value) {
-                            return value != textEditingControllerPassword.text ? null : "Les mot de passe ne sont pas identiques";
+                            return textEditingControllerConfirmPassword.text == textEditingControllerPassword.text ? null : "Les mot de passe ne sont pas identiques";
                           },
                           obscureText: obscureText,
                           decoration: InputDecoration(
@@ -333,7 +339,7 @@ class  RegisterPageState extends State<RegisterPage> {
   }
 
 
-  register() {
+  register() async {
       if (_formKey.currentState.validate()) {
         String nom = textEditingControllerNom.text;
         String prenom = textEditingControllerPrenom.text;
@@ -352,13 +358,34 @@ class  RegisterPageState extends State<RegisterPage> {
             sexe = "AUTRE";
             break;
         }
+        RegisterForm registerForm = new RegisterForm();
+        registerForm.password = password;
+        registerForm.email = email;
+        registerForm.phone = telephone;
+        registerForm.fullname = nom + " " + prenom;
+        // save user
 
-        /// send api request to register
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => HomePage(defaultSection: 0,)
-            ));
+          var response =  await UserService.register(registerForm);
+          if(response.statusCode == 409) {
+            final snackBar = SnackBar(
+              content: const Text("Ce compte utilisateur existe déjà. Veuillez vous connecter"),
+              backgroundColor: Colors.blueGrey,
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            return;
+          }
+          if(response.statusCode == 200) {
+            User newUser = User.fromJson(json.decode(response.body));
+            await Globals.prefs.setString(Globals.KEY_USER_AUTH, newUser.toJson().toString());
+
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => LoginPage(defaultLogin: newUser.email,)
+                ));
+
+            return;
+          }
       } else {
         final snackBar = SnackBar(
           content: const Text("Formulaire invalide"),

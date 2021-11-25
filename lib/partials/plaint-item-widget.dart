@@ -181,7 +181,17 @@ class _PlaintItemWidgetState extends State<PlaintItemWidget> {
     );
   }
 
-
+  String getReactionCount() {
+    int KILO = 1000;
+    int MILLION = KILO * 1000;
+    if( (widget.item.number_like_down / MILLION) > 1) {
+      return (widget.item.number_like_down / MILLION).toStringAsFixed(1) + " M";
+    }
+    if( (widget.item.number_like_down / KILO) > 1) {
+      return (widget.item.number_like_down / KILO).toStringAsFixed(1) + " K";
+    }
+    return widget.item.number_like_down.toString();
+  }
 
 
 }

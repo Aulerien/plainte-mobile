@@ -7,13 +7,14 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:dio/dio.dart';
 import 'package:plainte/forms/login-form.dart';
+import 'package:plainte/forms/register-form.dart';
 import 'package:plainte/models/plaint.dart';
 import 'package:plainte/utils/globals.dart';
-class PlaintService {
+class UserService {
 
   /// login
-  Future<dynamic> login(LoginForm loginForm) async {
-    var url = Globals.BASE_URL + 'login';
+  static Future<dynamic> login(LoginForm loginForm) async {
+    var url = Globals.BASE_URL + '/admins/login';
     Dio dio = new Dio();
     return await dio.post(url, data: loginForm,
         options: Options(
@@ -27,16 +28,12 @@ class PlaintService {
 
 
   /// register
-  Future<dynamic> register(LoginForm loginForm) async {
-    var url = Globals.BASE_URL + 'register';
-    Dio dio = new Dio();
-    return await dio.post(url, data: loginForm,
-        options: Options(
-          headers: <String, String>{
-            HttpHeaders.acceptHeader: 'application/json',
-          },
-        )
-    );
+  static Future<dynamic> register(RegisterForm registerForm) async {
+    registerForm.role = "usager";
+    var url = Globals.BASE_URL + '/admins/register';
+    return await http.post(Uri.parse(url), headers: <String, String>{
+      HttpHeaders.acceptHeader: 'application/json',
+    }, body: json.encode(registerForm));
   }
 
 }

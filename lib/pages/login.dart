@@ -11,8 +11,10 @@ import 'package:plainte/utils/constantes.dart';
 class LoginPage extends StatefulWidget {
 
   final String title = "Connexion";
+  String defaultLogin;
   LoginPage({
     Key key,
+    this.defaultLogin,
   }):super(key:key);
   LoginPageState createState() => LoginPageState();
 }
@@ -29,10 +31,8 @@ class  LoginPageState extends State<LoginPage> {
 
   @override
   void initState()  {
-
-    // TODO: implement initState
+    textEditingControllerEmail = new TextEditingController(text: widget.defaultLogin);
     super.initState();
-
   }
 
   @override
