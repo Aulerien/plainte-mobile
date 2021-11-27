@@ -30,4 +30,11 @@ class UserService {
     }, body: json.encode(registerForm));
   }
 
+
+  /// logout
+  static Future<dynamic> logout() async {
+    await Globals.prefs.remove(Globals.KEY_API_TOKEN);
+    await Globals.prefs.remove(Globals.KEY_USER_AUTH);
+  }
+
 }

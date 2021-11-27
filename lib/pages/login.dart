@@ -93,7 +93,7 @@ class  LoginPageState extends State<LoginPage> {
                               return value.isValidPhone ? null : "Veuillez entrer votre numéro de téléphone";
                             },
                             onSaved: (value) => _email = value.trim(),
-                            decoration: Constantes.myInputDecoration("Adresse email")
+                            decoration: Constantes.myInputDecoration("Téléphone")
                         )
 
 

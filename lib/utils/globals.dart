@@ -9,6 +9,7 @@ class Globals {
 
   static final String KEY_API_TOKEN = "KEY_API_TOKEN";
   static final String KEY_USER_AUTH = "KEY_USER_AUTH";
+  static final String KEY_APP_INITIALIZED = "KEY_APP_INITIALIZED";
 
 
   // routes names

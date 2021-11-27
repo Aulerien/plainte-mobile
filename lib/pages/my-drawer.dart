@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:plainte/pages/login.dart';
+import 'package:plainte/services/user.service.dart';
 class MyDrawer extends StatelessWidget {
   MyDrawer();
 
@@ -139,9 +141,15 @@ class MyDrawer extends StatelessWidget {
                   ),
 
                   title: const Text(
-                    'Deconnexion', style: TextStyle(color: Colors.white),),
-                  onTap: () => {
-
+                    'Déconnexion', style: TextStyle(color: Colors.white),),
+                  onTap: () async {
+                    await UserService.logout();
+                // navigate to home
+                Navigator.pushAndRemoveUntil(
+                context, MaterialPageRoute(
+                  builder: (BuildContext context) => LoginPage()
+              ), (route) => false,
+              );
                   }
               ),
               Padding(

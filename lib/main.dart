@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plainte/pages/home.dart';
 import 'package:plainte/pages/how-it-works.dart';
+import 'package:plainte/pages/login.dart';
 import 'package:plainte/pages/welcome.dart';
 import 'package:plainte/utils/globals.dart';
 import 'package:plainte/utils/routes.dart';
@@ -28,6 +29,11 @@ class MyApp extends StatelessWidget {
     String token = Globals.prefs.getString(Globals.KEY_API_TOKEN);
     if(token != null && !token.isEmpty) {
       defaultHomePage = HomePage(defaultSection: 1,);
+    } else {
+      bool apkInitialzed = Globals.prefs.getBool(Globals.KEY_APP_INITIALIZED);
+      if(apkInitialzed == true) {
+        defaultHomePage = LoginPage();
+      }
     }
     return MaterialApp(
       debugShowCheckedModeBanner: false,

@@ -16,16 +16,12 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   void initState() {
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      String token = Globals.prefs.getString(Globals.KEY_API_TOKEN);
-      if(token != null && !token.isEmpty) {
-        Navigator.push(context, MaterialPageRoute(
-            builder: (BuildContext context) => HomePage(defaultSection: 1,)
-        ));
-      }
-    });
+    bindData();
     super.initState();
+  }
+
+  bindData() async {
+    await Globals.prefs.setBool(Globals.KEY_APP_INITIALIZED, true);
   }
 
   @override
