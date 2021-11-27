@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plainte/pages/conditions-utilisation.dart';
+import 'package:plainte/pages/home.dart';
+import 'package:plainte/utils/globals.dart';
 
 class WelcomePage extends StatefulWidget {
   WelcomePage({Key key}): super(key: key);
@@ -11,6 +13,20 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
+
+  @override
+  void initState() {
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      String token = Globals.prefs.getString(Globals.KEY_API_TOKEN);
+      if(token != null && !token.isEmpty) {
+        Navigator.push(context, MaterialPageRoute(
+            builder: (BuildContext context) => HomePage(defaultSection: 1,)
+        ));
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,9 +73,7 @@ class _WelcomePageState extends State<WelcomePage> {
           children: [
             TextButton(
               onPressed: () => {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ConditionUtilisationPage()
-                ))
+                Navigator.of(context).pushNamed(Globals.ROUTE_CONDITIONS_UTILISATION)
               },
               child: Container(
                 width: 150,

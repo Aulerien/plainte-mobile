@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plainte/pages/conditions-utilisation.dart';
-import 'package:plainte/pages/login.dart';
+import 'package:plainte/utils/globals.dart';
 
 class HowItWorksPage extends StatefulWidget {
   HowItWorksPage({Key key}): super(key: key);
@@ -43,10 +42,7 @@ class _HowItWorksPageState extends State<HowItWorksPage> {
           children: [
             TextButton(
               onPressed: () => {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => LoginPage()
-                      )
-                  )
+                  Navigator.of(context).pushNamed(Globals.ROUTE_LOGIN)
               },
               child: Container(
                 margin: EdgeInsets.only(left: 10, right: 10),

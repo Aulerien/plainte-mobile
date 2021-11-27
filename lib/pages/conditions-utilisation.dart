@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plainte/pages/how-it-works.dart';
+import 'package:plainte/utils/globals.dart';
 
 class ConditionUtilisationPage extends StatefulWidget {
   ConditionUtilisationPage({Key key}): super(key: key);
@@ -131,10 +131,7 @@ class _ConditionUtilisationPageState extends State<ConditionUtilisationPage> {
             TextButton(
               onPressed: () => {
                 if(canGoToNext) {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => HowItWorksPage()
-                      )
-                  )
+                  Navigator.of(context).pushNamed(Globals.ROUTE_HOW_IT_WORKS)
                 }
               },
               child: Container(

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:plainte/pages/home.dart';
+import 'package:plainte/pages/how-it-works.dart';
 import 'package:plainte/pages/welcome.dart';
 import 'package:plainte/utils/globals.dart';
+import 'package:plainte/utils/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -15,16 +18,25 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+    Widget defaultHomePage = WelcomePage();
+    String token = Globals.prefs.getString(Globals.KEY_API_TOKEN);
+    if(token != null && !token.isEmpty) {
+      defaultHomePage = HomePage(defaultSection: 1,);
+    }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Plainte',
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: WelcomePage(),
+      home: defaultHomePage,
+      routes: routesApplication,
     );
   }
 }

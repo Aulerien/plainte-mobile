@@ -1,12 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plainte/form-validators/ext-string.dart';
+import 'package:plainte/forms/login-form.dart';
+import 'package:plainte/models/user.dart';
 import 'package:plainte/pages/home.dart';
 import 'package:plainte/pages/register.dart';
+import 'package:plainte/services/user.service.dart';
 import 'dart:ui';
 
 import 'package:plainte/utils/constantes.dart';
+import 'package:plainte/utils/globals.dart';
+import 'package:plainte/utils/toast.service.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -81,8 +88,9 @@ class  LoginPageState extends State<LoginPage> {
                         margin: EdgeInsets.only(left: 20, right: 20),
                         child: TextFormField(
                             controller: textEditingControllerEmail,
+                            keyboardType: TextInputType.phone,
                             validator: (value) {
-                              return value.isValidEmail ? null : "Veuillez entrer une addresse mail valide";
+                              return value.isValidPhone ? null : "Veuillez entrer votre numéro de téléphone";
                             },
                             onSaved: (value) => _email = value.trim(),
                             decoration: Constantes.myInputDecoration("Adresse email")
@@ -126,11 +134,7 @@ class  LoginPageState extends State<LoginPage> {
 
                     InkWell(
                       onTap: (){
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterPage()
-                            ));
+                        Navigator.of(context).pushNamed(Globals.ROUTE_REGISTER);
                       },
                       child: Text(
                         "Je n'ai pas encore créé de compte",
@@ -183,20 +187,34 @@ class  LoginPageState extends State<LoginPage> {
   }
 
 
-  login() {
+  login() async {
       if (_formKey.currentState.validate()) {
-        /// send api request to login
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => HomePage(defaultSection: 1,)
-            ));
+        LoginForm loginForm = new LoginForm();
+        loginForm.password = textEditingControllerPassword.text;
+        loginForm.phone = textEditingControllerEmail.text;
+        // save user
+        var response =  await UserService.login(loginForm);
+        if(response.statusCode == 401) {
+          var data = json.decode(response.body);
+          ToastService.displayMessage(context, data['message']);
+          return;
+        }
+        if(response.statusCode == 200) {
+          var data = json.decode(response.body);
+          print(response.body);
+          User user = User.fromJson(data['admin']);
+          String token = data['token'];
+          await Globals.prefs.setString(Globals.KEY_API_TOKEN, token);
+          await Globals.prefs.setString(Globals.KEY_USER_AUTH, json.encode(user));
+          // navigate to home
+          Navigator.pushAndRemoveUntil(
+              context, MaterialPageRoute(
+              builder: (BuildContext context) => HomePage(defaultSection: 1,)
+          ), (route) => false,
+          );
+        }
       } else {
-        final snackBar = SnackBar(
-          content: const Text("Formulaire invalide"),
-          backgroundColor: Colors.blueGrey,
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        ToastService.displayMessage(context, "Formulaire invalide");
       }
   }
 

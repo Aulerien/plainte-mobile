@@ -46,4 +46,9 @@ class User {
     };
   }
 
+  @override
+  String toString() {
+    return 'User{role: $role, fullname: $fullname, phone: $phone, password: $password, email: $email, createdAt: $createdAt, updatedAt: $updatedAt, id: $id}';
+  }
+
 }

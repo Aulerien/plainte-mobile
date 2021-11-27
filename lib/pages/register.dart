@@ -13,6 +13,7 @@ import 'dart:ui';
 
 import 'package:plainte/utils/constantes.dart';
 import 'package:plainte/utils/globals.dart';
+import 'package:plainte/utils/toast.service.dart';
 
 class RegisterPage extends StatefulWidget {
 
@@ -367,31 +368,20 @@ class  RegisterPageState extends State<RegisterPage> {
 
           var response =  await UserService.register(registerForm);
           if(response.statusCode == 409) {
-            final snackBar = SnackBar(
-              content: const Text("Ce compte utilisateur existe déjà. Veuillez vous connecter"),
-              backgroundColor: Colors.blueGrey,
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            ToastService.displayMessage(context, "Ce compte utilisateur existe déjà. Veuillez vous connecter");
             return;
           }
           if(response.statusCode == 200) {
             User newUser = User.fromJson(json.decode(response.body));
             await Globals.prefs.setString(Globals.KEY_USER_AUTH, newUser.toJson().toString());
 
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => LoginPage(defaultLogin: newUser.email,)
-                ));
-
+            Navigator.of(context).pushNamed(Globals.ROUTE_LOGIN, arguments: {
+              'defaultLogin' : newUser.email
+            });
             return;
           }
       } else {
-        final snackBar = SnackBar(
-          content: const Text("Formulaire invalide"),
-          backgroundColor: Colors.blueGrey,
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        ToastService.displayMessage(context, "Formulaire invalide");
       }
   }
 

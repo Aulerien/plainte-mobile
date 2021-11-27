@@ -15,15 +15,9 @@ class UserService {
   /// login
   static Future<dynamic> login(LoginForm loginForm) async {
     var url = Globals.BASE_URL + '/admins/login';
-    Dio dio = new Dio();
-    return await dio.post(url, data: loginForm,
-        options: Options(
-          headers: <String, String>{
-            HttpHeaders.authorizationHeader: Globals.prefs.getString(Globals.KEY_API_TOKEN),
-            HttpHeaders.acceptHeader: 'application/json',
-          },
-        )
-    );
+    return await http.post(Uri.parse(url), headers: <String, String>{
+      HttpHeaders.acceptHeader: 'application/json',
+    }, body: json.encode(loginForm));
   }
 
 
