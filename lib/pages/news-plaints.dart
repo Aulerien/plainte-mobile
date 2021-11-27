@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:plainte/models/plaint.dart';
 import 'package:plainte/partials/plaint-item-widget.dart';
+import 'package:plainte/services/plaint.service.dart';
 
 class NewsPlaintsPage extends StatefulWidget {
   NewsPlaintsPage({Key key}): super(key: key);
@@ -16,7 +19,7 @@ class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
 
   @override
   void initState() {
-    widget.items = [
+    /*widget.items = [
       new Plaint(
         DateTime.now().millisecond,
         "Abomey Calavi, Gogomey, Echangeur",
@@ -24,7 +27,17 @@ class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
         "", "", 192, 11, 400, "VALIDEE"
       ),
     ];
-    widget.items =  List.filled(30, widget.items[0]);
+    widget.items =  List.filled(30, widget.items[0]);*/
+    getistPlaint();
+  }
+
+  getistPlaint() async {
+     var response = await PlaintService.list();
+     if(response.statusCode == 200) {
+         List list = json.decode(response.body)['plaintes'];
+         print(response.body);
+         widget.items = List<Plaint>.from(list.map((e) => Plaint.fromJson(e)) );
+     }
   }
 
   @override

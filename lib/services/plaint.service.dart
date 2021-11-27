@@ -9,15 +9,17 @@ class PlaintService {
   /// send plaint
   static Future<dynamic>  savePlaint(SavePlaintForm savePlaintForm) async {
     var url = Globals.BASE_URL + '/plaintes/create';
+   // var url = Globals.BASE_URL + '/plaintes/create-file';
     Dio dio = new Dio();
     var files = [];
     if(savePlaintForm.fileSelected != null) {
       files.add(await MultipartFile.fromFile(savePlaintForm.fileSelected.path));
     }
     FormData formData = new FormData.fromMap({
-    "libelle" : savePlaintForm.description,
+    "libelle" : new DateTime.now().millisecondsSinceEpoch, //savePlaintForm.description,
+    "categorie" : savePlaintForm.categoryPlaint.id,
     "localisation" : savePlaintForm.localisation,
-    "files" : files
+   // "files" : files
     });
     return await dio.post(url, data: formData,
         options: Options(
@@ -29,7 +31,7 @@ class PlaintService {
     );
   }
 
-  /// register
+  /// list
   static Future<dynamic> list() async {
     var url = Globals.BASE_URL + '/plaintes/list';
     return await http.get(Uri.parse(url), headers: <String, String>{

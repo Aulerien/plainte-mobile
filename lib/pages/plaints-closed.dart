@@ -16,7 +16,7 @@ class _PlaintsClosedPageState extends State<PlaintsClosedPage> {
 
   @override
   void initState() {
-    widget.items = [
+    /*widget.items = [
       new Plaint(
           DateTime.now().millisecond,
           "Akpka Avotrou",
@@ -24,7 +24,7 @@ class _PlaintsClosedPageState extends State<PlaintsClosedPage> {
           "", "", 350, 20, 400, "VALIDEE"
       ),
     ];
-    widget.items =  List.filled(30, widget.items[0]);
+    widget.items =  List.filled(30, widget.items[0]);*/
   }
 
   @override

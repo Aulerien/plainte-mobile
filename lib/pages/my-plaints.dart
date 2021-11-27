@@ -15,7 +15,7 @@ class MyPlaintsPage extends StatefulWidget {
 class _MyPlaintsPageState extends State<MyPlaintsPage> {
   @override
   void initState() {
-    widget.items = [
+    /*widget.items = [
       new Plaint(
           DateTime.now().millisecond,
           "Bohicon, Houegbé",
@@ -23,7 +23,7 @@ class _MyPlaintsPageState extends State<MyPlaintsPage> {
           "", "", 100, 10, 140, "VALIDEE"
       ),
     ];
-    widget.items =  List.filled(30, widget.items[0]);
+    widget.items =  List.filled(30, widget.items[0]);*/
   }
 
   @override

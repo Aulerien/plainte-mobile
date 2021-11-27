@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:plainte/forms/save-plaint-form.dart';
+import 'package:plainte/models/category-plaint.dart';
 import 'package:plainte/pages/home.dart';
+import 'package:plainte/services/categorie-plaint.service.dart';
 import 'package:plainte/services/plaint.service.dart';
 import 'package:plainte/utils/constantes.dart';
 import 'package:plainte/form-validators/ext-string.dart';
@@ -22,6 +25,9 @@ class SavePlaintPage extends StatefulWidget {
 }
 
 class _SavePlaintPageState extends State<SavePlaintPage> {
+  List<CategoryPlaint> categories = [];
+  CategoryPlaint categoryPlaintSelected;
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool obscureText = true;
   final _formKey = GlobalKey<FormState>();
@@ -34,9 +40,24 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
 
   @override
   void initState()  {
-    // TODO: implement initState
+    bindData();
     super.initState();
+  }
 
+  bindData() async {
+    var response = await CategoriePlaintService.list();
+    print(response.statusCode);
+    if(response.statusCode == 200) {
+      print(response.body);
+      List list = json.decode(response.body)['categories'];
+      categories =  List<CategoryPlaint>.from(list.map( (e) => CategoryPlaint.fromJson(e)));
+      if(categories.length > 0) {
+        setState( () {
+          categoryPlaintSelected = categories[0];
+        });
+      }
+      print(categories);
+    }
   }
 
   @override
@@ -75,6 +96,50 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
                 ),
 
                 // lieu
+                SizedBox(height: 15),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                  margin: EdgeInsets.only(left: 20, right: 20),
+                  height: 60,
+                  child: FormField<CategoryPlaint>(
+                    builder: (FormFieldState<CategoryPlaint> state) {
+                      return InputDecorator(
+                        decoration:
+                        InputDecoration(
+                          labelStyle: TextStyle(fontSize: 16),
+                          errorStyle: TextStyle(color: Colors.redAccent, fontSize: 16.0),
+                          hintText: 'Choisissez une catégorie',
+                          labelText: "Catégorie",
+                          enabledBorder: Constantes.myEnabledBorder(),
+                          focusedBorder: Constantes.myFocusedBorder(),
+                          errorBorder: Constantes.myErrorBorder(),
+                          focusedErrorBorder: Constantes.myFocusedErrorBorder(),
+                        ),
+                        isEmpty: null == '',
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<CategoryPlaint>(
+                            value: categoryPlaintSelected,
+                            isDense: true,
+                            onChanged: (CategoryPlaint newValue) {
+                              setState(() {
+                                state.didChange(newValue);
+                                categoryPlaintSelected = newValue;
+                              });
+                            },
+                            items: categories.map((CategoryPlaint categoryPlaint) {
+                              return DropdownMenuItem<CategoryPlaint>(
+                                value: categoryPlaint,
+                                child: Text(categoryPlaint.libelle),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
                 SizedBox(height: 15),
                 Container(
                     decoration: BoxDecoration(
@@ -163,6 +228,7 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
       savePlaintForm.fileSelected = fileSelected;
       savePlaintForm.localisation = lieu;
       savePlaintForm.description = description;
+      savePlaintForm.categoryPlaint = categoryPlaintSelected;
 
       /// save plaint
       try {
