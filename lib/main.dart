@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:plainte/pages/home.dart';
 import 'package:plainte/pages/how-it-works.dart';
 import 'package:plainte/pages/login.dart';
@@ -41,7 +43,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: defaultHomePage,
+      home: LoaderOverlay(
+        useDefaultLoading: false,
+        overlayWidget: Center(
+          child:  SpinKitThreeBounce(
+            color: Colors.purple,
+            size: 50,
+          ),
+        ),
+        child: defaultHomePage
+      ),
       routes: routesApplication,
     );
   }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:plainte/form-validators/ext-string.dart';
 import 'package:plainte/forms/login-form.dart';
 import 'package:plainte/models/user.dart';
@@ -150,7 +151,7 @@ class  LoginPageState extends State<LoginPage> {
                     SizedBox(height: 50),
                     TextButton(
                         onPressed: () {
-                          login();
+                          login(context);
                         },
                         child: Container(
                         margin: EdgeInsets.only(left: 60, right: 60),
@@ -187,8 +188,9 @@ class  LoginPageState extends State<LoginPage> {
   }
 
 
-  login() async {
+  login(BuildContext context) async {
       if (_formKey.currentState.validate()) {
+        context.loaderOverlay.show();
         LoginForm loginForm = new LoginForm();
         loginForm.password = textEditingControllerPassword.text;
         loginForm.phone = textEditingControllerEmail.text;
@@ -197,6 +199,7 @@ class  LoginPageState extends State<LoginPage> {
         if(response.statusCode == 401) {
           var data = json.decode(response.body);
           ToastService.displayMessage(context, data['message']);
+          context.loaderOverlay.hide();
           return;
         }
         if(response.statusCode == 200) {
@@ -206,6 +209,7 @@ class  LoginPageState extends State<LoginPage> {
           String token = data['token'];
           await Globals.prefs.setString(Globals.KEY_API_TOKEN, token);
           await Globals.prefs.setString(Globals.KEY_USER_AUTH, json.encode(user));
+          context.loaderOverlay.hide();
           // navigate to home
           Navigator.pushAndRemoveUntil(
               context, MaterialPageRoute(
