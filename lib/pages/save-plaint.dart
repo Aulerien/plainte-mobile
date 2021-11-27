@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:plainte/forms/save-plaint-form.dart';
 import 'package:plainte/pages/home.dart';
@@ -160,13 +161,20 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
       String lieu = textEditingControllerLieu.text;
       SavePlaintForm savePlaintForm = SavePlaintForm();
       savePlaintForm.fileSelected = fileSelected;
-      savePlaintForm.lieu = lieu;
+      savePlaintForm.localisation = lieu;
       savePlaintForm.description = description;
 
       /// save plaint
-      var response = await  PlaintService.sendPlaint(savePlaintForm);
-      context.loaderOverlay.hide();
-      print(response.data);
+      try {
+        var response = await  PlaintService.savePlaint(savePlaintForm);
+        print(response.data);
+      } on DioError catch (e) {
+        print('type error ' + e.type.toString());
+        print('message : ' + e.response.toString());
+      } finally {
+        context.loaderOverlay.hide();
+      }
+      return;
       //
       Navigator.push(
           context,
