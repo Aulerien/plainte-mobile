@@ -1,12 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:plainte/forms/save-plaint-form.dart';
 import 'package:plainte/pages/home.dart';
+import 'package:plainte/services/plaint.service.dart';
 import 'package:plainte/utils/constantes.dart';
 import 'package:plainte/form-validators/ext-string.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class SavePlaintPage extends StatefulWidget {
   SavePlaintPage({Key key}): super(key: key);
@@ -37,9 +40,9 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
 
   @override
   void dispose() {
-    super.dispose();
     videoPlayerController?.dispose();
     chewieController?.dispose();
+    super.dispose();
   }
 
   Widget build(BuildContext context) {
@@ -80,7 +83,7 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
                     child: TextFormField(
                         controller: textEditingControllerLieu,
                         validator: (value) {
-                          return value.isNotNull ? null : "Veuillez saisir le lieu";
+                          return (value.isNotNull && value.trim().length > 0) ?  null : "Veuillez saisir le lieu";
                         },
                         decoration: Constantes.myInputDecoration("Lieu")
                     )
@@ -98,21 +101,21 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
                         minLines: 5,
                         maxLines: 20,
                         validator: (value) {
-                          return value.isNotNull ? null : "Veuillez entrer la description";
+                          return (value.isNotNull && value.trim().length > 0) ?  null : "Veuillez entrer la description";
                         },
                         decoration: Constantes.myInputDecoration("Description de ce qui s'est passé")
                     )
                 ),
 
-                // photo / image chooser
-                buildImageOrVideoChooser(),
-
                 // show file illustration
                 buildFileIllustration(),
 
+                // photo / image chooser
+                buildImageOrVideoChooser(),
+
                 TextButton(
                     onPressed: () {
-                      savePlaint();
+                      savePlaint(context);
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: 60, right: 60, bottom: 20),
@@ -149,12 +152,22 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
 
 
 
-
-  savePlaint() {
+  /// save plaint
+  savePlaint(BuildContext context) async {
     if (_formKey.currentState.validate()) {
+      context.loaderOverlay.show();
       String description = textEditingControllerDescription.text;
+      String lieu = textEditingControllerLieu.text;
+      SavePlaintForm savePlaintForm = SavePlaintForm();
+      savePlaintForm.fileSelected = fileSelected;
+      savePlaintForm.lieu = lieu;
+      savePlaintForm.description = description;
 
-      /// send api request to register
+      /// save plaint
+      var response = await  PlaintService.sendPlaint(savePlaintForm);
+      context.loaderOverlay.hide();
+      print(response.data);
+      //
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -170,8 +183,12 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
   }
 
   void openFileChooser(bool isPhoto) async {
+    FileType fileType = FileType.image;
+    if(!isPhoto) {
+      fileType = FileType.video;
+    }
     FilePickerResult result = await FilePicker.platform.pickFiles(
-      //type: FileType.custom
+      type: fileType
     );
     if (result != null) {
       // Uint8List fileBytes = result.files.first.bytes;
@@ -191,7 +208,7 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
     print('File extension ' + fileSelected.extension.toString().toLowerCase());
     if(imagesExtensions.contains(fileSelected.extension.toString().toLowerCase())) {
       return Container(
-        margin: EdgeInsets.only(left: 10, right: 10),
+        margin: EdgeInsets.only(left: 10, right: 10, top: 10),
         child: Image.file(
           new File(fileSelected.path),
           fit: BoxFit.fill,
