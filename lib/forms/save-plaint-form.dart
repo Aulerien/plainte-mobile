@@ -1,11 +1,15 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:plainte/models/category-plaint.dart';
+import 'package:plainte/models/etat-plaint.dart';
+import 'package:plainte/models/user.dart';
 
 class SavePlaintForm {
   String localisation;
   String description;
   PlatformFile fileSelected;
   CategoryPlaint categoryPlaint;
+  EtatPlaint etatPlaint;
+  User user;
 
   SavePlaintForm({
     this.localisation,

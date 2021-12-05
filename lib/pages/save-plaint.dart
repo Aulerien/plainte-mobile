@@ -5,12 +5,17 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:plainte/forms/save-plaint-form.dart';
 import 'package:plainte/models/category-plaint.dart';
+import 'package:plainte/models/etat-plaint.dart';
+import 'package:plainte/models/user.dart';
 import 'package:plainte/pages/home.dart';
 import 'package:plainte/services/categorie-plaint.service.dart';
+import 'package:plainte/services/etat-plaint.service.dart';
 import 'package:plainte/services/plaint.service.dart';
 import 'package:plainte/utils/constantes.dart';
 import 'package:plainte/form-validators/ext-string.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:plainte/utils/globals.dart';
+import 'package:plainte/utils/toast.service.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -37,6 +42,8 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
   TextEditingController controllerFileChooser = TextEditingController();
   VideoPlayerController videoPlayerController;
   ChewieController chewieController;
+  User user = User.fromJson(json.decode(Globals.prefs.getString(Globals.KEY_USER_AUTH)));
+  EtatPlaint defaultEtatPlaint;
 
   @override
   void initState()  {
@@ -46,6 +53,16 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
 
   bindData() async {
     var response = await CategoriePlaintService.list();
+    //await EtatPlaintService.save();
+    var responseEtat = await EtatPlaintService.list();
+    if(responseEtat.statusCode == 200) {
+      Iterable iterable = json.decode(responseEtat.body)["etatplaintes"];
+      if(iterable.length > 0) {
+        defaultEtatPlaint = EtatPlaint.fromJson(iterable.first);
+      }
+    }
+    print('Etat');
+    print(responseEtat.body);
     print(response.statusCode);
     if(response.statusCode == 200) {
       print(response.body);
@@ -220,6 +237,14 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
 
   /// save plaint
   savePlaint(BuildContext context) async {
+    if(defaultEtatPlaint == null) {
+      ToastService.displayMessage(context, "Etat plaint non disponible");
+      return;
+    }
+    if(categoryPlaintSelected == null) {
+      ToastService.displayMessage(context, "Veuillez sélectionner une catégorie");
+      return;
+    }
     if (_formKey.currentState.validate()) {
       context.loaderOverlay.show();
       String description = textEditingControllerDescription.text;
@@ -229,24 +254,32 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
       savePlaintForm.localisation = lieu;
       savePlaintForm.description = description;
       savePlaintForm.categoryPlaint = categoryPlaintSelected;
+      savePlaintForm.etatPlaint = defaultEtatPlaint;
+      savePlaintForm.user = user;
 
       /// save plaint
       try {
         var response = await  PlaintService.savePlaint(savePlaintForm);
         print(response.data);
+        if(response.statusCode == 200) {
+          context.loaderOverlay.hide();
+          ToastService.displayMessage(context, "Votre plainte est crée avec succès. Merci");
+          // navigate to home
+          Navigator.pushAndRemoveUntil(
+            context, MaterialPageRoute(
+              builder: (BuildContext context) => HomePage(defaultSection: 1,)
+          ), (route) => false,
+          );
+        } else {
+          ToastService.displayMessage(context, "Une erreur est survenue lors de l'enregistrement. Veuillez réessayer.");
+        }
+        context.loaderOverlay.hide();
       } on DioError catch (e) {
         print('type error ' + e.type.toString());
         print('message : ' + e.response.toString());
-      } finally {
+        ToastService.displayMessage(context, "Une erreur est survenue lors de l'enregistrement. Veuillez réessayer.");
         context.loaderOverlay.hide();
       }
-      return;
-      //
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => HomePage(defaultSection: 0,)
-          ));
     } else {
       final snackBar = SnackBar(
         content: const Text("Formulaire invalide"),

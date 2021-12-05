@@ -17,20 +17,21 @@ class PlaintService {
     if(savePlaintForm.fileSelected != null) {
       files.add(await MultipartFile.fromFile(savePlaintForm.fileSelected.path));
     }
-    var objectData = {
+    Map<String, dynamic> objectData = <String, dynamic> {
       "libelle" : savePlaintForm.description,
       "categorie" : savePlaintForm.categoryPlaint.id,
       "localisation" : savePlaintForm.localisation,
+      "creator" : savePlaintForm.user.id,
+      "etatplainte" : savePlaintForm.etatPlaint.id,
     };
-    var formWithFile = {
-      "objectdata" : objectData,
-      "filepro" : "files",
-      "filenumber" : 1,
-      "filedata0" : files[0],
-    };
-    var data = objectData;
+    Map<String, dynamic> data = objectData;
     if(savePlaintForm.fileSelected != null) {
-      data = formWithFile;
+      data = <String, dynamic> {
+        "fileprop" : "files",
+        "filenumber" : 1,
+        "filedata0" : files[0],
+        "objectdata" : json.encode(objectData),
+      };
     }
     FormData formData = new FormData.fromMap(data);
     return await dio.post(url, data: formData,
