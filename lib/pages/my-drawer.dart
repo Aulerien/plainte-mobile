@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plainte/pages/home.dart';
 import 'package:plainte/pages/login.dart';
 import 'package:plainte/services/user.service.dart';
 class MyDrawer extends StatelessWidget {
@@ -38,7 +39,12 @@ class MyDrawer extends StatelessWidget {
                 title: const Text(
                   'Statistique', style: TextStyle(color: Colors.white),),
                 onTap: () {
-
+                  // navigate to home
+                  Navigator.pushAndRemoveUntil(
+                    context, MaterialPageRoute(
+                      builder: (BuildContext context) => HomePage(defaultSection: 0,)
+                  ), (route) => false,
+                  );
                 },
               ),
               ListTile(
@@ -55,7 +61,12 @@ class MyDrawer extends StatelessWidget {
                 title: const Text(
                   'Actualités', style: TextStyle(color: Colors.white),),
                 onTap: () {
-
+              // navigate to home
+                  Navigator.pushAndRemoveUntil(
+                    context, MaterialPageRoute(
+                      builder: (BuildContext context) => HomePage(defaultSection: 1,)
+                  ), (route) => false,
+                  );
                 },
               ),
               ListTile(
@@ -72,7 +83,12 @@ class MyDrawer extends StatelessWidget {
                 title: const Text(
                   'Créer une plainte', style: TextStyle(color: Colors.white),),
                 onTap: () {
-
+                // navigate to create
+                  Navigator.pushAndRemoveUntil(
+                    context, MaterialPageRoute(
+                      builder: (BuildContext context) => HomePage(defaultSection: 2,)
+                  ), (route) => false,
+                  );
                 },
               ),
               ListTile(
@@ -89,7 +105,12 @@ class MyDrawer extends StatelessWidget {
                 title: const Text(
                   'Plaintes traitées', style: TextStyle(color: Colors.white),),
                 onTap: () {
-
+                  // navigate to home
+                  Navigator.pushAndRemoveUntil(
+                    context, MaterialPageRoute(
+                      builder: (BuildContext context) => HomePage(defaultSection: 3,)
+                  ), (route) => false,
+                  );
                 },
               ),
               ListTile(
@@ -106,7 +127,12 @@ class MyDrawer extends StatelessWidget {
                 title: const Text(
                   'Mes plaintes', style: TextStyle(color: Colors.white),),
                 onTap: () {
-
+                  // navigate to home
+                  Navigator.pushAndRemoveUntil(
+                    context, MaterialPageRoute(
+                      builder: (BuildContext context) => HomePage(defaultSection: 4,)
+                  ), (route) => false,
+                  );
                 },
               ),
 
