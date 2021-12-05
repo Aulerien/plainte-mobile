@@ -1,37 +1,33 @@
+import 'package:plainte/models/category-plaint.dart';
+
 class Plaint {
-  num date;
-  String lieu;
-  String text;
-  String file;
-  String categorie;
-  num number_like_up;
+  String libelle;
+  String localisation;
+  List<String> files;
+  CategoryPlaint categorie;
+  DateTime createdAt;
+  DateTime updatedAt;
   num number_like_down;
   num number_views;
-  String plaint_status;
+  num number_like_up;
 
   Plaint({
-    this.date,
-    this.lieu,
-    this.text,
-    this.file,
+    this.libelle,
+    this.localisation,
+    this.files,
     this.categorie,
-    this.number_like_up,
-    this.number_like_down,
-    this.number_views,
-    this.plaint_status
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Plaint.fromJson(Map<String, dynamic> json){
     return Plaint(
-      date: json["date"],
-      lieu: json["lieu"],
-      text: json["text"],
-      file: json["file"],
-      categorie: json["categorie"],
-      number_like_up: json["number_like_up"],
-      number_like_down: json["number_like_down"],
-      number_views: json["number_views"],
-      plaint_status: json["plaint_status"],
+      libelle: json["libelle"],
+      localisation: json["localisation"],
+      files: (json["files"] as Iterable).map((e) => e.toString()).toList(),
+      categorie: CategoryPlaint.fromJson(json['categorie']),
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.parse(json['createdAt']),
     );
   }
 

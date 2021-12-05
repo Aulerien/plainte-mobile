@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plainte/models/plaint.dart';
+import 'package:plainte/utils/time-ago.service.dart';
 
 class PlaintItemWidget extends StatefulWidget {
   PlaintItemWidget({Key key, this.item, this.index, this.totalItems}): super(key: key);
@@ -67,7 +68,7 @@ class _PlaintItemWidgetState extends State<PlaintItemWidget> {
             SizedBox(width: 5,),
             // le lieu
             Expanded(
-              child: Text("Calavi, Godomey Salamin dans la rue de Maison Talon"),
+              child: Text(widget.item.localisation),
             ),
           ],
         ),
@@ -106,7 +107,8 @@ class _PlaintItemWidgetState extends State<PlaintItemWidget> {
                   ),
                     SizedBox(width: 5,),
                     // date création
-                    Text("Il y a 1h")],
+                    Text(displayDateCreation())
+                  ],
                 ),
               ],
             ),
@@ -130,14 +132,14 @@ class _PlaintItemWidgetState extends State<PlaintItemWidget> {
                 size: 25,
               ),
               Text(
-                  widget.item.number_like_up?.toString() ?? '',
+                  widget.item.number_like_up?.toString() ?? '0',
                   style: TextStyle(
                       fontSize: 15
                   )
               ),
             ],
           ),
-          Column(
+          /*Column(
             children: [
               Icon(
                 Icons.remove_red_eye,
@@ -151,7 +153,7 @@ class _PlaintItemWidgetState extends State<PlaintItemWidget> {
                   )
               ),
             ],
-          ),
+          ),*/
           Column(
             children: [
               Icon(
@@ -160,7 +162,7 @@ class _PlaintItemWidgetState extends State<PlaintItemWidget> {
                 size: 25,
               ),
               Text(
-                widget.item.number_like_down?.toString() ?? '',
+                widget.item.number_like_down?.toString() ?? '0',
                 style: TextStyle(
                     fontSize: 15
                 ),
@@ -176,7 +178,7 @@ class _PlaintItemWidgetState extends State<PlaintItemWidget> {
     return Padding(
       padding: EdgeInsets.only(top: 30, bottom: 20),
       child: Text(
-          widget.item.text
+          widget.item.libelle
       ),
     );
   }
@@ -191,6 +193,10 @@ class _PlaintItemWidgetState extends State<PlaintItemWidget> {
       return (widget.item.number_like_down / KILO).toStringAsFixed(1) + " K";
     }
     return widget.item.number_like_down.toString();
+  }
+
+  String displayDateCreation() {
+    return TimeAgoService.timeAgo(widget.item.createdAt);
   }
 
 

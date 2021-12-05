@@ -191,6 +191,7 @@ class  LoginPageState extends State<LoginPage> {
   login(BuildContext context) async {
       if (_formKey.currentState.validate()) {
         context.loaderOverlay.show();
+        //await Future.delayed(Duration(seconds: 1));
         LoginForm loginForm = new LoginForm();
         loginForm.password = textEditingControllerPassword.text;
         loginForm.phone = textEditingControllerEmail.text;

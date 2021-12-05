@@ -36,7 +36,9 @@ class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
      if(response.statusCode == 200) {
          List list = json.decode(response.body)['plaintes'];
          print(response.body);
-         widget.items = List<Plaint>.from(list.map((e) => Plaint.fromJson(e)) );
+         setState( () {
+           widget.items = List<Plaint>.from(list.map((e) => Plaint.fromJson(e)) );
+         });
      }
   }
 

@@ -40,6 +40,7 @@ dependencies:
   # to handle the loading
   loader_overlay: ^2.0.4+2
   flutter_spinkit: ^5.1.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
