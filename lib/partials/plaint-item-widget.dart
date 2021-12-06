@@ -174,11 +174,23 @@ class _PlaintItemWidgetState extends State<PlaintItemWidget> {
   }
 
   Widget buildBodyItem() {
-    // TODO: type item in [TEXT, IMAGE, VIDEO, AUDIO]
+    Widget image = Container();
+    if(widget.item.files != null && widget.item.files.length > 0){
+      image = Container(
+        child: Image.network(widget.item.files.first),
+      );
+    }
     return Padding(
       padding: EdgeInsets.only(top: 30, bottom: 20),
-      child: Text(
-          widget.item.libelle
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+              widget.item.libelle
+          ),
+          SizedBox(height: 5,),
+          image,
+        ],
       ),
     );
   }
