@@ -247,6 +247,7 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
     }
     if (_formKey.currentState.validate()) {
       context.loaderOverlay.show();
+      await Future.delayed(Duration(seconds: 1));
       String description = textEditingControllerDescription.text;
       String lieu = textEditingControllerLieu.text;
       SavePlaintForm savePlaintForm = SavePlaintForm();

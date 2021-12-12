@@ -38,6 +38,7 @@ class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
          print(response.body);
          setState( () {
            widget.items = List<Plaint>.from(list.map((e) => Plaint.fromJson(e)) );
+           widget.items = widget.items.reversed.toList();
          });
      }
   }
