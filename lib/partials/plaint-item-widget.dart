@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plainte/models/plaint.dart';
+import 'package:plainte/services/plaint.service.dart';
 import 'package:plainte/utils/time-ago.service.dart';
 
 class PlaintItemWidget extends StatefulWidget {
@@ -121,20 +122,26 @@ class _PlaintItemWidgetState extends State<PlaintItemWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            children: [
-              Icon(
-                Icons.thumb_up,
-                color: Colors.green,
-                size: 25,
-              ),
-              Text(
-                  widget.item.number_like_up?.toString() ?? '0',
-                  style: TextStyle(
-                      fontSize: 15
-                  )
-              ),
-            ],
+          InkWell(
+            onTap: () async {
+              reaction("UP");
+            },
+            child:
+            Column(
+              children: [
+                Icon(
+                  Icons.thumb_up,
+                  color: Colors.green,
+                  size: 25,
+                ),
+                Text(
+                    getReactionCount(widget.item.voteUp),
+                    style: TextStyle(
+                        fontSize: 15
+                    )
+                ),
+              ],
+            ),
           ),
           /*Column(
             children: [
@@ -151,19 +158,24 @@ class _PlaintItemWidgetState extends State<PlaintItemWidget> {
               ),
             ],
           ),*/
-          Column(
-            children: [
-              Icon(
-                Icons.thumb_down,
-                color: Colors.red,
-                size: 25,
-              ),
-              Text(
-                widget.item.number_like_down?.toString() ?? '0',
-                style: TextStyle(
-                    fontSize: 15
+          InkWell(
+          onTap: () async {
+            reaction("DOWN");
+            },
+            child: Column(
+              children: [
+                Icon(
+                  Icons.thumb_down,
+                  color: Colors.red,
+                  size: 25,
                 ),
-              ),],
+                Text(
+                  getReactionCount(widget.item.voteDown),
+                  style: TextStyle(
+                      fontSize: 15
+                  ),
+                ),],
+            ),
           ),
         ],
       ),
@@ -192,16 +204,17 @@ class _PlaintItemWidgetState extends State<PlaintItemWidget> {
     );
   }
 
-  String getReactionCount() {
+  String getReactionCount(num number) {
+    if(number == null) return "0";
     int KILO = 1000;
     int MILLION = KILO * 1000;
-    if( (widget.item.number_like_down / MILLION) > 1) {
-      return (widget.item.number_like_down / MILLION).toStringAsFixed(1) + " M";
+    if( (number / MILLION) > 1) {
+      return (number / MILLION).toStringAsFixed(1) + " M";
     }
-    if( (widget.item.number_like_down / KILO) > 1) {
-      return (widget.item.number_like_down / KILO).toStringAsFixed(1) + " K";
+    if( (number / KILO) > 1) {
+      return (number / KILO).toStringAsFixed(1) + " K";
     }
-    return widget.item.number_like_down.toString();
+    return number.toString();
   }
 
   String displayDateCreation() {
@@ -241,10 +254,31 @@ class _PlaintItemWidgetState extends State<PlaintItemWidget> {
     if("CREE" == etat) {
       return Icon(
         Icons.flag,
-        color: Colors.deepPurpleAccent,
+        color: Colors.grey,
       );
     }
     return Container();
+  }
+
+  reaction(String type) async {
+    if("UP" == type) {
+      setState( () {
+        if(widget.item.voteUp == null) {
+          widget.item.voteUp = 0;
+        }
+        widget.item.voteUp = widget.item.voteUp + 1;
+      });
+    } else {
+      setState( () {
+        if(widget.item.voteDown == null) {
+          widget.item.voteDown = 0;
+        }
+        widget.item.voteDown = widget.item.voteDown + 1;
+      });
+    }
+    var response = await PlaintService.reaction(widget.item.id, widget.item.voteUp, widget.item.voteDown);
+    print(response.statusCode);
+    print(response.body);
   }
 
 

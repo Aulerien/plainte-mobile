@@ -53,4 +53,34 @@ class PlaintService {
     },);
   }
 
+  /// reaction plaint
+  static Future<dynamic> reaction(String plaintId, num voteUp, num voteDown) async {
+    var url = Globals.BASE_URL + '/plaintes/update/' + plaintId;
+    print(url);
+    /*Dio dio = new Dio();
+    Map<String, dynamic> objectData = <String, dynamic> {
+      "voteUp" : voteUp,
+      "voteDown" : voteDown,
+    };
+    FormData formData = new FormData.fromMap(objectData);*/
+    /*return await dio.post(url, data: formData,
+        options: Options(
+          headers: <String, String>{
+            'Authorization': 'bearer' + Globals.prefs.getString(Globals.KEY_API_TOKEN),
+            HttpHeaders.acceptHeader: 'application/json',
+          },
+        )
+    );*/
+    return await http.post(Uri.parse(url),
+      body: {
+        "voteUp" : voteUp.toString(),
+        "voteDown" : voteDown.toString(),
+      },
+      headers: <String, String>{
+        HttpHeaders.acceptHeader: 'application/json',
+        'Authorization': 'bearer' + Globals.prefs.getString(Globals.KEY_API_TOKEN),
+      },);
+
+  }
+
 }

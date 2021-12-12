@@ -31,9 +31,9 @@ class _MyPlaintsPageState extends State<MyPlaintsPage> {
     if(widget.items.length == 0) {
       return Center(
         child: Text(
-          "Les plaintes vont s'afficher ici...",
+          "Vos plaintes vont s'afficher ici...",
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 16,
           ),
           textAlign: TextAlign.justify,
         ),

@@ -32,9 +32,9 @@ class _PlaintsClosedPageState extends State<PlaintsClosedPage> {
     if(widget.items.length == 0) {
       return Center(
         child: Text(
-          "Les plaintes vont s'afficher ici...",
+          "Les plaintes cloturées vont s'afficher ici...",
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 16,
           ),
           textAlign: TextAlign.justify,
         ),

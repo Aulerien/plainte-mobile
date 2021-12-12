@@ -50,7 +50,7 @@ class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
         child: Text(
           "Les plaintes vont s'afficher ici...",
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 16,
           ),
           textAlign: TextAlign.justify,
         ),

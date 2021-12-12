@@ -222,8 +222,7 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
                                   fontSize: 17
                               ),
                               textAlign: TextAlign.justify,
-                            ),
-                            Icon(Icons.navigate_next, size: 25, color: Colors.white,)
+                            )
                           ],
                         ),
                       ),
