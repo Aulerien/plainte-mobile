@@ -58,7 +58,10 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
     if(responseEtat.statusCode == 200) {
       Iterable iterable = json.decode(responseEtat.body)["etatplaintes"];
       if(iterable.length > 0) {
-        defaultEtatPlaint = EtatPlaint.fromJson(iterable.first);
+        var data = iterable.firstWhere((element) => element['libelle'] == "CREE");
+        if(data != null) {
+          defaultEtatPlaint = EtatPlaint.fromJson(data);
+        }
       }
     }
     print('Etat');

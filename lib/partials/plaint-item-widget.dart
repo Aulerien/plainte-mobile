@@ -81,14 +81,11 @@ class _PlaintItemWidgetState extends State<PlaintItemWidget> {
                 Row(
                   children: [
                     // seulement quand la plainte est fermée
-                    Icon(
-                      Icons.check_box,
-                      color: Colors.green,
-                    ),
+                    getIconeEtatPlaint(widget.item.etatplainte?.libelle ?? ""),
                     SizedBox(width: 5,),
                     // date création
                     Text(
-                        "Fermée",
+                      widget.item.etatplainte?.libelle ?? "-",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -209,6 +206,45 @@ class _PlaintItemWidgetState extends State<PlaintItemWidget> {
 
   String displayDateCreation() {
     return TimeAgoService.timeAgo(widget.item.createdAt);
+  }
+
+  Widget getIconeEtatPlaint(String etat) {
+    // cloture
+    if("CLOTURE" == etat) {
+      return Icon(
+        Icons.check_box,
+        color: Colors.green,
+      );
+    }
+    // retire
+    if("RETIRE" == etat) {
+      return Icon(
+        Icons.remove_circle_outline,
+        color: Colors.blueGrey,
+      );
+    }
+    // rejete
+    if("REJETE" == etat) {
+      return Icon(
+        Icons.delete_sweep,
+        color: Colors.red,
+      );
+    }
+    // en traitement
+    if("EN TRAITEMENT" == etat) {
+      return Icon(
+        Icons.autorenew,
+        color: Colors.blueAccent,
+      );
+    }
+    // crée
+    if("CREE" == etat) {
+      return Icon(
+        Icons.flag,
+        color: Colors.deepPurpleAccent,
+      );
+    }
+    return Container();
   }
 
 
