@@ -13,6 +13,7 @@ class Constantes {
         focusedBorder: myFocusedBorder(),
         errorBorder: myErrorBorder(),
         focusedErrorBorder: myFocusedErrorBorder(),
+        errorMaxLines: 10
     );
   }
 

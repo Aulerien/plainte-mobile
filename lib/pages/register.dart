@@ -14,6 +14,7 @@ import 'dart:ui';
 import 'package:plainte/utils/constantes.dart';
 import 'package:plainte/utils/globals.dart';
 import 'package:plainte/utils/toast.service.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class RegisterPage extends StatefulWidget {
 
@@ -154,7 +155,7 @@ class  RegisterPageState extends State<RegisterPage> {
                             keyboardType: TextInputType.phone,
                             controller: textEditingControllerTelephone,
                             validator: (value) {
-                              return value.isValidPhone ? null : "Veuillez entrer votre numéro de téléphone";
+                              return value.isValidPhone ? null : "Veuillez entrer votre numéro de téléphone avec le + indicatif du pays";
                             },
                             decoration: Constantes.myInputDecoration("Téléphone")
                         )
@@ -281,7 +282,6 @@ class  RegisterPageState extends State<RegisterPage> {
                                 ),
                                 textAlign: TextAlign.justify,
                               ),
-                              Icon(Icons.navigate_next, size: 25, color: Colors.white,)
                             ],
                           ),
                         ),
@@ -342,6 +342,8 @@ class  RegisterPageState extends State<RegisterPage> {
 
   register() async {
       if (_formKey.currentState.validate()) {
+        context.loaderOverlay.show();
+        await Future.delayed(Duration(seconds: 1));
         String nom = textEditingControllerNom.text;
         String prenom = textEditingControllerPrenom.text;
         String email = textEditingControllerEmail.text;
@@ -363,18 +365,22 @@ class  RegisterPageState extends State<RegisterPage> {
         registerForm.password = password;
         registerForm.email = email;
         registerForm.phone = telephone;
+        registerForm.active = true;
         registerForm.fullname = nom + " " + prenom;
         // save user
 
           var response =  await UserService.register(registerForm);
+          print('response.statusCode ' + response.statusCode.toString());
+          print('response.body ' + response.body);
           if(response.statusCode == 409) {
             ToastService.displayMessage(context, "Ce compte utilisateur existe déjà. Veuillez vous connecter");
+            context.loaderOverlay.hide();
             return;
           }
           if(response.statusCode == 200) {
             User newUser = User.fromJson(json.decode(response.body));
             await Globals.prefs.setString(Globals.KEY_USER_AUTH, newUser.toJson().toString());
-
+            context.loaderOverlay.hide();
             Navigator.of(context).pushNamed(Globals.ROUTE_LOGIN, arguments: {
               'defaultLogin' : newUser.email
             });

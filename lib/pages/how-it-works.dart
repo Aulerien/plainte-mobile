@@ -63,8 +63,7 @@ class _HowItWorksPageState extends State<HowItWorksPage> {
                             fontSize: 15
                         ),
                         textAlign: TextAlign.justify,
-                      ),
-                      Icon(Icons.navigate_next, size: 25, color: Colors.white,)
+                      )
                     ],
                   ),
                 ),

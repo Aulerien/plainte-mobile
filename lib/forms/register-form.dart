@@ -4,6 +4,7 @@ class RegisterForm {
   String phone;
   String password;
   String email;
+  bool active;
 
   RegisterForm({
     this.role,
@@ -11,6 +12,7 @@ class RegisterForm {
     this.phone,
     this.password,
     this.email,
+    this.active,
   });
 
 
@@ -21,6 +23,7 @@ class RegisterForm {
       phone: json["phone"],
       password: json["password"],
       email: json["email"],
+      active: json["active"],
     );
   }
 
@@ -31,6 +34,7 @@ class RegisterForm {
       'phone' : phone,
       'password' : password,
       'email' : email,
+      'active' : active,
     };
   }
 

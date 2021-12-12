@@ -91,7 +91,7 @@ class  LoginPageState extends State<LoginPage> {
                             controller: textEditingControllerEmail,
                             keyboardType: TextInputType.phone,
                             validator: (value) {
-                              return value.isValidPhone ? null : "Veuillez entrer votre numéro de téléphone";
+                              return value.isValidPhone ? null : "Veuillez entrer votre numéro de téléphone avec le + indicatif du pays";
                             },
                             onSaved: (value) => _email = value.trim(),
                             decoration: Constantes.myInputDecoration("Téléphone")
@@ -173,7 +173,6 @@ class  LoginPageState extends State<LoginPage> {
                                 ),
                                 textAlign: TextAlign.justify,
                               ),
-                              Icon(Icons.navigate_next, size: 25, color: Colors.white,)
                             ],
                           ),
                         ),
@@ -191,6 +190,7 @@ class  LoginPageState extends State<LoginPage> {
   login(BuildContext context) async {
       if (_formKey.currentState.validate()) {
         context.loaderOverlay.show();
+        await Future.delayed(Duration(seconds: 1));
         //await Future.delayed(Duration(seconds: 1));
         LoginForm loginForm = new LoginForm();
         loginForm.password = textEditingControllerPassword.text;
