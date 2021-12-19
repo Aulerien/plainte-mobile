@@ -55,7 +55,7 @@ class PlaintService {
 
   /// reaction plaint
   static Future<dynamic> reaction(String plaintId, num voteUp, num voteDown) async {
-    var url = Globals.BASE_URL + '/plaintes/update/' + plaintId;
+    var url = Globals.BASE_URL + '/plaintes/' + plaintId;
     print(url);
     /*Dio dio = new Dio();
     Map<String, dynamic> objectData = <String, dynamic> {
@@ -71,11 +71,22 @@ class PlaintService {
           },
         )
     );*/
-    return await http.post(Uri.parse(url),
-      body: {
-        "voteUp" : voteUp.toString(),
-        "voteDown" : voteDown.toString(),
-      },
+    if(voteDown == null) {
+      voteDown = 0;
+    }
+    if(voteUp == null) {
+      voteUp = 0;
+    }
+    var data = <String, num> {
+      "voteUp" : voteUp,
+      "voteDown" : voteDown,
+    };
+    print('Before jsonEncode(data)');
+    print(data);
+    print('After jsonEncode(data)');
+    print(jsonEncode(data));
+    return await http.put(Uri.parse(url),
+      body: jsonEncode(data),
       headers: <String, String>{
         HttpHeaders.acceptHeader: 'application/json',
         'Authorization': 'bearer' + Globals.prefs.getString(Globals.KEY_API_TOKEN),

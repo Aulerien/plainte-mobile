@@ -35,9 +35,11 @@ class _NewsPlaintsPageState extends State<NewsPlaintsPage> {
      var response = await PlaintService.list();
      if(response.statusCode == 200) {
          List list = json.decode(response.body)['plaintes'];
-         print(response.body);
+        // print(response.body);
          setState( () {
            widget.items = List<Plaint>.from(list.map((e) => Plaint.fromJson(e)) );
+           print("widget.items.length " + widget.items.length.toString());
+           print("json.decode(response.body)['total'] " + json.decode(response.body)['total'].toString());
            widget.items = widget.items.reversed.toList();
          });
      }

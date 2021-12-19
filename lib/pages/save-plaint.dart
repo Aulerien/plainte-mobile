@@ -48,6 +48,7 @@ class _SavePlaintPageState extends State<SavePlaintPage> {
   @override
   void initState()  {
     bindData();
+    print(Globals.prefs.getString(Globals.KEY_API_TOKEN));
     super.initState();
   }
 
